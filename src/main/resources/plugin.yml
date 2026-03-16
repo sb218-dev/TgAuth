@@ -1,0 +1,9 @@
+name: TgAuth
+version: '1.0'
+main: ru.oleg.tgauth.TgAuthPlugin
+api-version: '1.21'
+commands:
+  reg:
+    description: Регистрация
+  login:
+    description: Вход

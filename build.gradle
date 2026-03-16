@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.oleg.tgauth'
+version = '2'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    // API сервера (Purpur/Paper) для версии 1.21.1
+    compileOnly "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
+
+    // Библиотека для работы с Telegram Bot API
+    implementation 'org.telegram:telegrambots:6.9.7.1'
+}
+
+java {
+    // Указываем Java 21, так как сервер на ней
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
+
+// Эта задача соберет плагин в один .jar файл вместе со всеми библиотеками (Телеграмом)
+tasks.register('shadowJar', Jar) {
+    archiveBaseName.set('TgAuth')
+    archiveClassifier.set('')
+    archiveVersion.set(project.version.toString())
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
+

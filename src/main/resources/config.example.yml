@@ -1,0 +1,15 @@
+bot-token: "YOUR_TELEGRAM_BOT_TOKEN_HERE"
+bot-username: "Your_Bot_Username"
+timeout-seconds: 120
+welcome-message: "&a&l[!] &fПривет, &b{player}&f! Ты успешно авторизовался через Telegram."
+
+# Настройки обхода блокировок Telegram
+proxy:
+  # Использовать ли классический прокси?
+  enabled: false
+  type: "SOCKS5" # Поддерживаются: HTTP, SOCKS4, SOCKS5
+  host: "127.0.0.1"
+  port: 1080
+  # Использовать Reverse Proxy (подмена URL api.telegram.org)?
+  use-reverse-proxy: false
+  reverse-proxy-url: "https://api.tgproxy.com/bot"
