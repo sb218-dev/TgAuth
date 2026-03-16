@@ -5,6 +5,8 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 
 public class TgAuthPlugin extends JavaPlugin {
     private DatabaseManager dbManager;
@@ -38,6 +40,22 @@ public class TgAuthPlugin extends JavaPlugin {
                     case "SOCKS5": options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5); break;
                     default: options.setProxyType(DefaultBotOptions.ProxyType.HTTP); break;
                 }
+
+                String proxyUser = getConfig().getString("proxy.username", "");
+                String proxyPass = getConfig().getString("proxy.password", "");
+                
+                if (!proxyUser.isEmpty() && !proxyPass.isEmpty()) {
+                    Authenticator.setDefault(new Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            if (getRequestingHost().equalsIgnoreCase(host) && getRequestingPort() == port) {
+                                return new PasswordAuthentication(proxyUser, proxyPass.toCharArray());
+                            }
+                            return super.getPasswordAuthentication();
+                        }
+                    });
+                }
+                
                 getLogger().info("Используется прокси: " + type + " " + host + ":" + port);
             }
             
