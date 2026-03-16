@@ -10,6 +10,8 @@ proxy:
   type: "SOCKS5" # Поддерживаются: HTTP, SOCKS4, SOCKS5
   host: "127.0.0.1"
   port: 1080
+  username: "" # Оставьте пустым, если авторизация на прокси не требуется
+  password: ""
   # Использовать Reverse Proxy (подмена URL api.telegram.org)?
   use-reverse-proxy: false
   reverse-proxy-url: "https://api.tgproxy.com/bot"
